@@ -93,7 +93,6 @@ public class WordGenerator implements DocGenerator {
     public void generateSummarySheet(SummaryDatasheet summaryDatasheet) {
         InputStream template = this.getClass().getResourceAsStream("/template/Summary-template.docx");
         Path filePath = outputDir.resolve(SUMMARY_DATA_SHEET_NAME);
-        log.info("SummarySheet services:{} outputDir:{}",summaryDatasheet.getServiceDatasheets().size(), filePath);
         try (XWPFDocument doc = new XWPFDocument(OPCPackage.open(template))) {
             XWPFTable table = doc.getTables().get(0);
 
@@ -109,29 +108,36 @@ public class WordGenerator implements DocGenerator {
             XWPFTableRow templateRow3 = table.getRow(3);
             CTRow ctRow3 = CTRow.Factory.parse(templateRow3.getCtRow().newInputStream());
 
-            for (ServiceDatasheet serviceDatasheet : summaryDatasheet.getServiceDatasheets()) {
-                log.info("{} {} {}", serviceDatasheet.getHttpMethod(), serviceDatasheet.getEntryPoint(), serviceDatasheet.getServiceName());
+            XWPFTableRow templateRow4 = table.getRow(4);
+            CTRow ctRow4 = CTRow.Factory.parse(templateRow4.getCtRow().newInputStream());
 
-                XWPFTableRow row1 = new XWPFTableRow(ctRow1, table);
-                writeTextToCell(row1, 0, StringUtils.trimToEmpty(serviceDatasheet.getServiceName()));
-                writeTextToCell(row1, 1, StringUtils.trimToEmpty(serviceDatasheet.getHttpMethod()));
-                writeTextToCell(row1, 2, StringUtils.trimToEmpty(serviceDatasheet.getEntryPoint()));
-                table.addRow(row1);
+            summaryDatasheet.getMap().forEach((tag,services) -> {
+                log.info("SummarySheet tag:{} services:{}",tag, services.size());
+                    XWPFTableRow row0 = new XWPFTableRow(ctRow0, table);
+                    writeTextToCell(row0, 0, StringUtils.trimToEmpty(tag));
+                    table.addRow(row0);
 
-                XWPFTableRow row2 = new XWPFTableRow(ctRow2, table);
-                writeTextToCell(row2, 0, StringUtils.trimToEmpty(serviceDatasheet.getShortDescription()));
-                writeTextToCell(row2, 1, StringUtils.trimToEmpty(serviceDatasheet.getRequestDescription()));
-                table.addRow(row2);
+                    for (ServiceDatasheet serviceDatasheet :services) {
+                        log.info("{} {} {}", serviceDatasheet.getHttpMethod(), serviceDatasheet.getEntryPoint(), serviceDatasheet.getServiceName());
+                        XWPFTableRow row1 = new XWPFTableRow(ctRow1, table);
+                        table.addRow(row1);
 
-                XWPFTableRow row3 = new XWPFTableRow(ctRow3, table);
-                table.addRow(row3);
+                        XWPFTableRow row2 = new XWPFTableRow(ctRow2, table);
+                        writeTextToCell(row2, 0, StringUtils.trimToEmpty(serviceDatasheet.getServiceName()));
+                        writeTextToCell(row2, 1, StringUtils.trimToEmpty(serviceDatasheet.getHttpMethod()));
+                        writeTextToCell(row2, 2, StringUtils.trimToEmpty(serviceDatasheet.getEntryPoint()));
+                        table.addRow(row2);
 
-                XWPFTableRow row0 = new XWPFTableRow(ctRow0, table);
-                table.addRow(row0);
-            }
+                        XWPFTableRow row3 = new XWPFTableRow(ctRow3, table);
+                        writeTextToCell(row3, 0, StringUtils.trimToEmpty(serviceDatasheet.getShortDescription()));
+                        writeTextToCell(row3, 1, StringUtils.trimToEmpty(serviceDatasheet.getRequestDescription()));
+                        table.addRow(row3);
 
-            table.removeRow(table.getNumberOfRows() -1);
-            table.removeRow(table.getNumberOfRows() -1);
+                    }
+                XWPFTableRow row4 = new XWPFTableRow(ctRow4, table);
+                table.addRow(row4);
+
+            });
 
             Files.deleteIfExists(filePath);
             doc.write(new FileOutputStream(filePath.toFile()));

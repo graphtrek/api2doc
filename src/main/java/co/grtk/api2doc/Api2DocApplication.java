@@ -90,6 +90,7 @@ public class Api2DocApplication implements CommandLineRunner {
         for (ServiceDatasheet serviceDatasheet : serviceDatasheets) {
             Path serviceOutputPath = outputPath.resolve(serviceDatasheet.getServiceName());
             DocGenerator wordGenerator = new WordGenerator(serviceOutputPath);
+            wordGenerator.prepare();
             serviceDatasheet.generate(wordGenerator);
         }
 
@@ -97,12 +98,14 @@ public class Api2DocApplication implements CommandLineRunner {
         log.info("Generating confluence documents.");
         for (ServiceDatasheet serviceDatasheet : serviceDatasheets) {
             DocGenerator confluenceGenerator = new ConfluenceGenerator(outputPath);
+            confluenceGenerator.prepare();
             serviceDatasheet.generate(confluenceGenerator);
         }
 
         DocGenerator summaryGenerator = new WordGenerator(outputPath);
-        SummaryDatasheet summaryDatasheet = SummaryDatasheet.builder().serviceDatasheets(serviceDatasheets).build();
-        summaryGenerator.generateSummarySheet(summaryDatasheet);
+        summaryGenerator.prepare();
+        SummaryDatasheet summaryDatasheet = new SummaryDatasheet(serviceDatasheets);
+        summaryDatasheet.generate(summaryGenerator);
 
         if (!warnings.isEmpty()) {
             warnings.forEach(log::warn);

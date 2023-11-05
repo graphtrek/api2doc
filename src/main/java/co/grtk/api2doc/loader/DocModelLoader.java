@@ -92,6 +92,7 @@ public class DocModelLoader {
                 .httpMethod(httpMethod.name())
                 .requestDescription(operation.getDescription())
                 .shortDescription(operation.getSummary())
+                .tags(operation.getTags())
                 .build();
 
         //REQUEST
