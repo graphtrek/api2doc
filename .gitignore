@@ -1,0 +1,17 @@
+.gradle
+.settings
+.vscode
+.project
+.classpath
+.idea
+gradlew*
+gradle/
+build/
+out/
+*.iml
+*.log
+.autorunReports
+soapui.log
+soapui-errors.log
+global-groovy.log
+logs/

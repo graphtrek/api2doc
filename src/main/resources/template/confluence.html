@@ -1,0 +1,139 @@
+<th:block xmlns:th="http://www.thymeleaf.org" lang="en"><div class="table-wrap">
+    <table class="relative-table wrapped confluenceTable" style="width: 80%;">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <th style="text-align: left;" colspan="5" class="confluenceTh">
+                <strong>Request Parameters</strong>
+            </th>
+        </tr>
+        <tr>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 200px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Parameter Name</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Style</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Type</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Multiplicity</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Description</strong></p></th>
+        </tr>
+        <tr th:each="attribute:${service.requestParameters}">
+            <th style="width: 200px;" class="confluenceTh"><strong th:text="${attribute.name}"></strong></th>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.style.display}"></td>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.typeDisplay}"></td>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.multiplicity.display}"></td>
+            <td class="confluenceTd"
+                th:utext="${#strings.replace(#strings.escapeXml(attribute.description),newLineChar,'&lt;br /&gt;')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-wrap">
+    <table class="relative-table wrapped confluenceTable" style="width: 80%;">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <th style="text-align: left;" colspan="4" class="confluenceTh">
+                <strong>Header Parameters</strong>
+            </th>
+        </tr>
+        <tr>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 200px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Parameter Name</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Type</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Multiplicity</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Description</strong></p></th>
+        </tr>
+        <tr th:each="attribute:${service.headerParameters}">
+            <th style="width: 200px;" class="confluenceTh"><strong th:text="${attribute.name}"></strong></th>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.typeDisplay}"></td>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.multiplicity.display}"></td>
+            <td class="confluenceTd"
+                th:utext="${#strings.replace(#strings.escapeXml(attribute.description),newLineChar,'&lt;br /&gt;')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-wrap">
+    <table class="relative-table wrapped confluenceTable" style="width: 80%;">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <th style="text-align: left;" colspan="4" class="confluenceTh">
+                <strong>Response</strong>
+            </th>
+        </tr>
+        <tr>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 200px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Attribute name</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Type</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Multiplicity</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Description</strong></p></th>
+        </tr>
+        <tr th:each="attribute:${service.responseParameters}">
+            <th style="width: 200px;" class="confluenceTh"><strong th:text="${attribute.name}"></strong></th>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.typeDisplay}"></td>
+            <td style="width: 150px;" class="confluenceTd"><p th:if="${attribute.multiplicity != null}" th:text="${attribute.multiplicity.display}"></p></td>
+            <td class="confluenceTd"
+                th:utext="${#strings.replace(#strings.escapeXml(attribute.description),newLineChar,'&lt;br /&gt;')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-wrap" th:each="objectDataSheet:${objectDataSheets}">
+    <table class="relative-table wrapped confluenceTable" style="width: 80%;">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <tbody>
+        <tr>
+            <th style="text-align: left;" colspan="4" class="confluenceTh">
+                <strong th:text="${objectDataSheet.objectName}"></strong>
+            </th>
+        </tr>
+        <tr>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 200px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Attribute Name</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Type</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;width: 150px;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Multiplicity</strong></p></th>
+            <th class="highlight-grey confluenceTh" style="text-align: left;"
+                data-highlight-colour="grey"><p class="western" title=""><strong>Description</strong></p></th>
+        </tr>
+        <tr th:each="attribute:${objectDataSheet.attributes}">
+            <th style="width: 200px;" class="confluenceTh"><strong th:text="${attribute.name}"></strong></th>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.typeDisplay}"></td>
+            <td style="width: 150px;" class="confluenceTd" th:text="${attribute.multiplicity.display}"></td>
+            <td class="confluenceTd"
+                th:utext="${#strings.replace(#strings.escapeXml(attribute.description),newLineChar,'&lt;br /&gt;')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div></th:block>
