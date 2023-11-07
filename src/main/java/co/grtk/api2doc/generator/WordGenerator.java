@@ -51,7 +51,7 @@ public class WordGenerator implements DocGenerator {
             writeTextToCell(table, 1, 1, serviceDatasheet.getServiceVersion());
             writeTextToCell(table, 2, 1, serviceDatasheet.getEntryPoint());
             writeTextToCell(table, 3, 1, serviceDatasheet.getHttpMethod());
-            writeTextToCell(table, 4, 1, serviceDatasheet.getRequestDescription());
+            writeTextToCell(table, 4, 1, StringUtils.replaceIgnoreCase(serviceDatasheet.getRequestDescription(),"<br>",""));
 
             // REQUEST
             List<Attribute> attributes = serviceDatasheet.getRequestParameters();
@@ -60,7 +60,7 @@ public class WordGenerator implements DocGenerator {
             // RESPONSE
             table = doc.getTables().get(1);
             writeTextToCell(table, 0, 1, serviceDatasheet.getResponseType());
-            writeTextToCell(table, 1, 1, serviceDatasheet.getResponseDescription());
+            writeTextToCell(table, 1, 1, StringUtils.replaceIgnoreCase(serviceDatasheet.getResponseDescription(),"<br>",""));
             attributes = serviceDatasheet.getResponseParameters();
             writeAttributes(table, attributes);
 
@@ -130,7 +130,7 @@ public class WordGenerator implements DocGenerator {
 
                         XWPFTableRow row3 = new XWPFTableRow(ctRow3, table);
                         writeTextToCell(row3, 0, StringUtils.trimToEmpty(serviceDatasheet.getShortDescription()));
-                        writeTextToCell(row3, 1, StringUtils.trimToEmpty(serviceDatasheet.getRequestDescription()));
+                        writeTextToCell(row3, 1, StringUtils.replaceIgnoreCase(StringUtils.trimToEmpty(serviceDatasheet.getRequestDescription()),"<br>", ""));
                         table.addRow(row3);
 
                     }
