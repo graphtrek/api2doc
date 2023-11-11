@@ -46,31 +46,3 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
-
-
-distZip {
-    exclude("*.sh")
-    archiveName("${project.name}.zip")
-}
-distTar {
-    exclude("*.bat")
-    archiveName("${project.name}.tar.gz")
-}
-
-distributions {
-    main {
-        contents {
-            distributionBaseName = project.name
-            into('lib/') {
-                from jar
-                from configurations.runtimeClasspath
-                dirMode = 0755
-                fileMode = 0644
-            }
-            from('src/main/bin') {
-                dirMode = 0755
-                fileMode = 0755
-            }
-        }
-    }
-}

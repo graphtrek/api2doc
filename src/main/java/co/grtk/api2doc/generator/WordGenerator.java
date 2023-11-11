@@ -138,6 +138,12 @@ public class WordGenerator implements DocGenerator {
                 table.addRow(row4);
 
             });
+            table.removeRow(0);
+            table.removeRow(0);
+            table.removeRow(0);
+            table.removeRow(0);
+            table.removeRow(0);
+
 
             Files.deleteIfExists(filePath);
             doc.write(new FileOutputStream(filePath.toFile()));
