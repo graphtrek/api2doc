@@ -74,6 +74,7 @@ public class Api2DocApplication implements CommandLineRunner {
         List<String> warnings = new ArrayList<>(parseResult.getMessages());
 
         OpenAPI openAPI = parseResult.getOpenAPI();
+
         String title = openAPI.getInfo() != null ? StringUtils.defaultString(openAPI.getInfo().getTitle(), "NO_TITLE") : "NO_TITLE";
         log.info("OpenAPI specification '{}' parsed", title);
         outputPath = outputPath.resolve(title.replace(" ", ""));
@@ -94,14 +95,14 @@ public class Api2DocApplication implements CommandLineRunner {
             serviceDatasheet.generate(wordGenerator);
         }
 
-
+/*
         log.info("Generating confluence documents.");
         for (ServiceDatasheet serviceDatasheet : serviceDatasheets) {
             DocGenerator confluenceGenerator = new ConfluenceGenerator(outputPath);
             confluenceGenerator.prepare();
             serviceDatasheet.generate(confluenceGenerator);
         }
-
+*/
         DocGenerator summaryGenerator = new WordGenerator(outputPath);
         summaryGenerator.prepare();
         SummaryDatasheet summaryDatasheet = new SummaryDatasheet(serviceDatasheets);
